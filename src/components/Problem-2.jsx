@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 const Problem2 = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalAOpen, setModalAOpen] = useState(false);
+  const [modalBOpen, setModalBOpen] = useState(false);
   const [data, setData] = useState([]);
   const [usData, setUsData] = useState(false);
 
@@ -15,7 +16,7 @@ const Problem2 = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [url]);
+  }, []);
 
   const filteredData = () => {
     if (usData === true) {
@@ -31,11 +32,18 @@ const Problem2 = () => {
     setUsData(true);
   };
   const handleButtonClick = () => {
-    setModalOpen(true);
+    setModalAOpen(true);
   };
 
   const handleCloseModal = () => {
-    setModalOpen(false);
+    setModalAOpen(false);
+  };
+  const handleUSButtonClick = () => {
+    setModalBOpen(true);
+  };
+
+  const handleUSCloseModal = () => {
+    setModalBOpen(false);
   };
 
   return (
@@ -45,27 +53,85 @@ const Problem2 = () => {
 
         <div className="d-flex justify-content-center gap-3">
           <button
-            className="btn btn-lg btn-outline-primary"
+            className="btn btn-lg"
             type="button"
             onClick={handleButtonClick}
+            style={{ backgroundColor: "#46139F", color: "#fff" }}
           >
             All Contacts
           </button>
           <button
-            className="btn btn-lg btn-outline-warning"
+            className="btn btn-lg "
             type="button"
-            onClick={handleButtonClick}
+            onClick={handleUSButtonClick}
+            style={{ backgroundColor: "#ff7f50", color: "#fff" }}
           >
             US Contacts
           </button>
         </div>
 
-        {modalOpen && (
+        {modalAOpen && (
           <div className="modal" style={{ display: "block" }}>
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Contact List</h5>
+                  <h5 className="modal-title">All Contact List</h5>
+                  <button
+                    type="button"
+                    className="btn "
+                    style={{ backgroundColor: "#46139F", color: "#fff" }}
+                    onClick={handleAllContacts}
+                  >
+                    All contacts
+                  </button>
+                  <button
+                    type="button"
+                    className=" btn btn-primary"
+                    onClick={handleUSContacts}
+                    style={{ backgroundColor: "#ff7f50", color: "#fff" }}
+                  >
+                    US contacts
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleCloseModal}
+                  >
+                    Close
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Phone</th>
+                        <th>Country ID</th>
+                        <th>Country Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredData().map((el) => (
+                        <tr key={el.id}>
+                          <td>{el.id}</td>
+                          <td>{el.phone}</td>
+                          <td>{el.country.id}</td>
+                          <td>{el.country.name}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {modalBOpen && (
+          <div className="modal" style={{ display: "block" }}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">US Contact List </h5>
                   <button
                     type="button"
                     className="btn btn-info"
@@ -83,7 +149,7 @@ const Problem2 = () => {
                   <button
                     type="button"
                     className="btn btn-danger"
-                    onClick={handleCloseModal}
+                    onClick={handleUSCloseModal}
                   >
                     Close
                   </button>
