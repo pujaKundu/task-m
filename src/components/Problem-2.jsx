@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const Problem2 = () => {
   const [modalAOpen, setModalAOpen] = useState(false);
   const [modalBOpen, setModalBOpen] = useState(false);
+  const [modalCOpen, setModalCOpen] = useState(false);
   const [data, setData] = useState([]);
   const [usData, setUsData] = useState(false);
 
@@ -25,6 +26,7 @@ const Problem2 = () => {
       return data;
     }
   };
+
   const handleAllContacts = () => {
     setUsData(false);
   };
@@ -45,6 +47,14 @@ const Problem2 = () => {
   const handleUSCloseModal = () => {
     setModalBOpen(false);
   };
+  const handleDetailButtonClick = () => {
+    setModalCOpen(true);
+  };
+
+  const handleDetailCloseModal = () => {
+    setModalCOpen(false);
+  };
+  
 
   return (
     <div className="container">
@@ -106,17 +116,13 @@ const Problem2 = () => {
                       <tr>
                         <th>ID</th>
                         <th>Phone</th>
-                        <th>Country ID</th>
-                        <th>Country Name</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredData().map((el) => (
-                        <tr key={el.id}>
+                        <tr key={el.id} onClick={handleDetailButtonClick}>
                           <td>{el.id}</td>
                           <td>{el.phone}</td>
-                          <td>{el.country.id}</td>
-                          <td>{el.country.name}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -136,6 +142,7 @@ const Problem2 = () => {
                     type="button"
                     className="btn btn-info"
                     onClick={handleAllContacts}
+                    style={{ backgroundColor: "#46139F", color: "#fff" }}
                   >
                     All contacts
                   </button>
@@ -143,6 +150,7 @@ const Problem2 = () => {
                     type="button"
                     className=" btn btn-primary"
                     onClick={handleUSContacts}
+                    style={{ backgroundColor: "#ff7f50", color: "#fff" }}
                   >
                     US contacts
                   </button>
@@ -150,6 +158,47 @@ const Problem2 = () => {
                     type="button"
                     className="btn btn-danger"
                     onClick={handleUSCloseModal}
+                  >
+                    Close
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Phone</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredData().map((el) => (
+                        <tr
+                          key={el.id}
+                          onClick={handleDetailButtonClick}
+                          style={{ cursor: "pointer", padding: "5px" }}
+                        >
+                          <td>{el.id}</td>
+                          <td>{el.phone}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {modalCOpen && (
+          <div className="modal" style={{ display: "block" }}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Contact Details </h5>
+
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleDetailCloseModal}
                   >
                     Close
                   </button>
